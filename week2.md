@@ -191,3 +191,4 @@ function a(){
     let j = i(30);
     console.log(j); // 10, 20, 30, 40
     ```
+    - with this example if you were to reassign outer to lets say 5 `outer = 5`, then you can no longer call outer `outer(y) error`
