@@ -1,11 +1,8 @@
-# Class 3 Notes
 # Javascript Memory Management
-- All primitive data types go on the stack, all objects on the heap
+Call Stack and Heap
+- Call stack: Stores fixed-size primitives (e.g. numbers, strings). Variables in the call stack include an identifier, address, and value.
+- Heap: Stores objects (dynamic types) such as functions and arrays. When a variable stores an object, the object itself is stored in the heap, and the call stack holds a reference to it (a pointer)
 
-</br>
-</br>
-
-# Class 4 Notes
 Shallow Copy:
 - Definition: Values of elements are copied, but nested elements addresses are copied and not their values!
 
@@ -125,3 +122,41 @@ function a(){
     console.log(j); // 10, 20, 30, 40
     ```
     - with this example if you were to reassign outer to lets say 5 `outer = 5`, then you can no longer call outer `outer(y) error`
+
+## Closure
+- A preservation of access to variables that would otherwise be out of scope because of a function dependency
+
+## Not Function Example
+```javascript
+function not(boolean_func){
+    return function(...x){
+        return !boolean_func(...x)
+    }
+}
+
+let is_even = x => x % 2 == 0
+let is_odd = not(is_even)
+```
+Incorrect Way:
+```javascript
+function not(boolean_func){
+    return !boolean_func
+}
+```
+
+# Special Case before Asynchronous Programming
+
+```javascript
+// loop A
+let i;
+for(i = 0; i < 10; i++){
+    void setTimeout(() => console.log(i), 3000)
+}
+// above loop is not possible as the loop runs faster than the timeout, so it would only print the last value in i, that being 9. This is because i is at the same address on each loop rather than the one below
+
+// loop B
+for(let i = 0; i < 10; i++){
+    void setTimeout(() => console.log(i), 3000)
+}
+// this loop prints 0 -> 9 correctly! this is because l is redeclared on each loop, so each iteration has access to a different version of i
+```
