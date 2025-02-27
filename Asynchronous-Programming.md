@@ -1,5 +1,4 @@
 # Asynchronous Programming
-# Asynchronous Programming
 Blocking:
 ```js
     x = download() // takes a long time
