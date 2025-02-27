@@ -73,7 +73,7 @@ resolve(venus)
 resolve(mars)
 
 function resolve(domain){
-    dns.resolve(venus, after_resolve)
+    dns.resolve(domain, after_resolve)
 
     function after_resolve(err, data){
         if(err){
@@ -86,4 +86,45 @@ function resolve(domain){
 
 // You can also do recursively for concurrent behavior
 ```
+Concurrent Method
+```javascript
+const dns = require("dns")
+const domains = ["apple.com", "microsoft.com", "walmart.com"]
+let i = 0
+dns.resolve(domains[i], after_resolution)
+function after_resolution(err, records){
+    console.log(domains[i], records)
+    i++
+    if(i >= domains.length){
+        console.log("all resolved")
+    }else{
+        dns.resolve(domains[i], after_resolution)
+    }
+}
+```
 
+## How to run in parallel and maintain output order
+```js
+const dns = require("dns")
+const domains = ["apple.com", "microsoft.com", "walmart.com"]
+let domains_resolve = 0
+let results = Array(domains.length)
+for(let i = 0; i < domains.length; i++){
+    resolve(domains[i], i)
+}
+
+function resolve(domain, i){
+    dns.resolve(domain, after_resolution)
+    function after_resolution(err, records){
+        domains_resolves++
+        if(err){
+            console.error("Error")
+        }else{
+            results[i] = `${domain}: ${records.join(",")}`
+            if(domains_resolve >= domains.length){
+                fs.writeFile("output.txt", results.join("\r\n"), () => console.log("done"))
+            }
+        }
+    }
+}
+```
