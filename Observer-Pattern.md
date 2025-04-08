@@ -64,7 +64,53 @@ r1.on("SIGSTOP", () => console.log("done with ctrl-z"))
 // ask();
 
 ```
+Recap Class 2
+
+Observer Pattern
+- Request Oriented
+- 0 or more relation with events
+- You have a subject with no observers (default state)
+
+Event Emitter
+- Emitter library in Node.JS
+- `.emit(eventName <string>, [...data]);`
+- `.on(eventName <string>, listener <function>);`
 
 ```js
+const EventEmitter = require("events");
+class DayEmitter extends EventEmitter {
+    constructor (update_time = 240){
+        super();
+        this.day = new Date();
+        this.update_time = update_time
+    }
+    start(){
+        this.day.setDate(this.day.getDate() + 1);
+        let mm = `${(this.day.getMonth() + 1 + "").padStart(2, "0")}`
+        let dd = `${(this.day.getDate() + 1 + "").padStart(2, "0")}`
+        let temp = (Math.floor(Math.random()*70)).toString()
+
+        this.emit('newday', {mm_dd: `${mm}/${dd}`, temp})
+    }
+
+}
+
+
+=======================
+const day_emitter = new DayEmitter();
+
+day_emitter.on('newday', ({mm_dd}) => {
+    process.stdout.cursorTo(0, 0);
+    process.stdout.clearLine();
+    process.stdout.write(mm_dd);
+    process.stdout(cursorTo(0, 2));
+})
+
+day_emitter.on('newday', ({temp}) => {
+    process.stdout.cursorTo(0, 0);
+    process.stdout.clearLine();
+    process.stdout.write(temp);
+    process.stdout(cursorTo(0, 2));
+})
 
 ```
