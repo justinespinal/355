@@ -8,7 +8,7 @@ Two major protocols:
 2. User Datagram Protocol (UDP)
     - No guarantees
 
-## UDP
+# UDP
 UDP Header
 - 32 bits
 - Split 0 -> 15 | 16 -> 31
@@ -50,3 +50,39 @@ NAT Table
     - Old Port #
     - New Port #
 
+# TCP
+TCP Guarantees:
+- Reliable delivery
+- No duplicated messages (AABC -> AABBC)
+- No out of orderness (ABC -> CAB)
+- Congestion control
+
+![alt text](image-5.png)
+![alt text](image-6.png)
+- Sequence Number:
+    - Used to order number of data bytes sent over
+- Acknowledgement Number:
+    - Number of bytes successfully received in the correct order
+- SYN
+    - Used to open a TCP connection
+- ACK
+    - Signals the message is an acknowledgement
+- FIN
+    - Used to close a connection
+- RST (RESET)
+    - Something has gone wrong, restart connection
+- Window Size
+    - How many messages I can send out before I must wait for an acknowledgement
+
+## Scenario 1
+Alice and Bob are communicating over TCP. Alice initiates the connection.
+Upon connecting, Alice sends three data segments: 100 Bytes(B), 200 B, 300 B.
+All segments are received w/o error or delay. Upon receiving
+all messages, Bob responds with two segments: 400 B, 500 B (No
+Data is lost/delayed). **Bob closes the connection**
+
+next_seq# = prev_seq# + prev_data_len
+
+all SEQ/ACK intialized to 1 upon 3 way opening handshake
+
+![alt text](image-7.png)
